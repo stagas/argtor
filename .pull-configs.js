@@ -15,8 +15,22 @@ merge('package.json', (prev, next) => {
   prev.scripts = next.scripts
   prev.files = next.files
   sort(assign(prev.devDependencies, next.devDependencies))
+
+  // deprecated
+  delete prev.devDependencies['@stagas/documentation-fork']
+  delete prev.devDependencies['@rollup/plugin-commonjs']
+  delete prev.devDependencies['@stagas/sucrase-jest-plugin']
+  delete prev.devDependencies['@web/dev-server-esbuild']
+  delete prev.devDependencies['@web/dev-server-rollup']
+  delete prev.devDependencies['esbuild']
+  delete prev.devDependencies['esbuild-register']
+  delete prev.devDependencies['prettier']
+  delete prev.devDependencies['terser']
+  delete prev.devDependencies['vite-web-test-runner-plugin']
 })
+replace('.gitattributes')
 replace('.gitignore')
+replace('.npmrc')
 replace('.eslintrc.js')
 replace('.pull-configs.js')
 replace('.swcrc')
