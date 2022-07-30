@@ -1,4 +1,4 @@
-const argsOf = (x: string) => {
+const argsOf = (x: string): string[] => {
   const d = x.indexOf('{') + 1
   if (!d || x.slice(0, d).includes(')')) return []
   x = x.slice(d)
@@ -28,7 +28,7 @@ const argsOf = (x: string) => {
  * @param keys A keys `Set` to fill in with the argument names.
  * @returns The keys `Set` with the argument names.
  */
-export const argtor = <T extends object>(
-  fn: (state: T) => any,
+export const argtor = (
+  fn: (state: any) => any,
   keys = new Set<string>(),
 ) => (argsOf('' + fn).forEach(x => !x || keys.add(x)), keys)

@@ -11,6 +11,16 @@ describe('argtract(fn)', () => {
     expect(count).toBe(0)
   })
 
+  // it('ignore extra arguments', () => {
+  //   let count = 0
+  //   const args = argtor(({ foo, bar }: any, { whatever: _ }: any) => {
+  //     console.log(foo, bar)
+  //     count++
+  //   })
+  //   expect([...args]).toEqual(['foo', 'bar'])
+  //   expect(count).toBe(0)
+  // })
+
   it('object destructure', () => {
     let count = 0
     const args = argtor(({ foo: { a = 123, b = 456 }, bar }: any) => {
