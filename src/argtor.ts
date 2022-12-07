@@ -1,6 +1,16 @@
-const argsOf = (x: string): string[] => {
+type Fn = (state: any) => any
+
+function argsOf<T extends string>(fn: Fn) {
+  const source = fn.toString()
+
+  let x = source
   const d = x.indexOf('{') + 1
-  if (!d || x.slice(0, d).includes(')')) return []
+  if (!d || x.slice(0, d).includes(')'))
+    return {
+      keys: [],
+      source
+    }
+
   x = x.slice(d)
   let match
   do {
@@ -13,7 +23,14 @@ const argsOf = (x: string): string[] => {
       }
     )
   } while (match)
-  return x.split('}')[0].split(',').map(x => x.split(/[^\w\s$]+/g)[0].trim())
+
+  return {
+    keys: x.split('}')[0]
+      .split(',')
+      .map((x) => x.split(/[^\w\s$]+/g)[0].trim() as T
+      ),
+    source
+  }
 }
 
 /**
@@ -28,7 +45,11 @@ const argsOf = (x: string): string[] => {
  * @param keys A keys `Set` to fill in with the argument names.
  * @returns The keys `Set` with the argument names.
  */
-export const argtor = (
-  fn: (state: any) => any,
-  keys = new Set<string>(),
-) => (argsOf('' + fn).forEach(x => !x || keys.add(x)), keys)
+export function argtor<T extends string>(
+  fn: Fn & { fn?: Fn },
+  keys = new Set<T>()
+) {
+  const args = argsOf<T>(fn?.fn ?? fn)
+  args.keys.forEach(x => !x || keys.add(x))
+  return Object.assign([...keys], { source: args.source })
+}

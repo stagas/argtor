@@ -1,6 +1,6 @@
 import { argtor } from '../src'
 
-describe('argtract(fn)', () => {
+describe('argtor(fn)', () => {
   it('simple', () => {
     let count = 0
     const args = argtor(({ foo, bar }: any) => {
@@ -64,7 +64,7 @@ describe('argtract(fn)', () => {
   it('non-arrow function', () => {
     let count = 0
     const args = argtor(
-      function({ foo: [a = ({ x, y }: any) => x + y, b = '({ => bar, any'], bar, zoo = '}) => x, y' }: any) {
+      function ({ foo: [a = ({ x, y }: any) => x + y, b = '({ => bar, any'], bar, zoo = '}) => x, y' }: any) {
         console.log(a, b, bar, zoo)
         count++
       }
